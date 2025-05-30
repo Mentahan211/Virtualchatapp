@@ -1,137 +1,223 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat App</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f1f1f1; }
-        .container { max-width: 400px; margin: auto; background: white; min-height: 100vh; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
-        .header { background: #075e54; color: white; padding: 15px; text-align: center; font-size: 18px; font-weight: bold; }
-        .user-number { padding: 10px; background: #128c7e; color: white; text-align: center; font-size: 14px; }
-        .home-screen { padding: 15px; }
-        .add-contact { display: flex; padding: 10px; }
-        .add-contact input { flex: 1; padding: 10px; margin-right: 5px; border: 1px solid #ccc; border-radius: 5px; }
-        .add-contact button { padding: 10px; background: #128c7e; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        .contact-list { list-style: none; padding: 0; margin: 0; }
-        .contact-list li { padding: 15px; border-bottom: 1px solid #ddd; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .contact-list li:hover { background: #e0e0e0; }
-        .delete-contact { background: red; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
-        .chat-screen { display: none; flex-direction: column; height: 100vh; background: white; }
-        .chat-header { background: #075e54; color: white; padding: 15px; display: flex; align-items: center; justify-content: space-between; }
-        .chat-messages { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; }
-        .message { padding: 10px; border-radius: 8px; margin-bottom: 5px; max-width: 75%; word-wrap: break-word; }
-        .sent { background: #dcf8c6; align-self: flex-end; }
-        .received { background: #ffffff; align-self: flex-start; }
-        .chat-input { display: flex; padding: 10px; background: #f1f1f1; position: fixed; bottom: 0; width: 100%; max-width: 400px; align-items: center; }
-        .chat-input input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
-        .chat-input button { background: #128c7e; color: white; border: none; padding: 12px; margin-left: 5px; border-radius: 50%; cursor: pointer; font-size: 16px; }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Support Palestine 🇵🇸 - Doa dan Harapan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0B3D91, #00A86B);
+    color: #eee;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  header {
+    width: 100%;
+    background: #007a3d;
+    padding: 20px 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 2rem;
+    letter-spacing: 2px;
+  }
+  .flag {
+    font-size: 3rem;
+    margin-top: 8px;
+  }
+  main {
+    max-width: 800px;
+    width: 95%;
+    background: rgba(0,0,0,0.3);
+    padding: 25px 30px;
+    border-radius: 15px;
+    margin: 25px 0 60px 0;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  }
+  main h2 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #fff;
+  }
+  main p {
+    line-height: 1.6;
+    font-size: 1.1rem;
+    color: #eee;
+    margin-bottom: 20px;
+  }
+  .image-container {
+    width: 100%;
+    height: 280px;
+    margin: 15px 0 30px 0;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  }
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.85);
+  }
+  main section {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px 25px;
+    border-radius: 12px;
+    margin-top: 30px;
+    color: #f0f0f0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  main section h2 {
+    margin-top: 0;
+    color: #ffd700;
+  }
+  main section p {
+    line-height: 1.5;
+    font-size: 1.05rem;
+  }
+  .share-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  .share-buttons button {
+    background: #007a3d;
+    border: none;
+    color: #fff;
+    padding: 10px 18px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+    transition: background 0.3s ease;
+  }
+  .share-buttons button:hover {
+    background: #005927;
+  }
+  .donate-section {
+    margin-top: 35px;
+    text-align: center;
+  }
+  .donate-section a {
+    background: #ff4b3e;
+    color: white;
+    text-decoration: none;
+    padding: 14px 28px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    transition: background 0.3s ease;
+  }
+  .donate-section a:hover {
+    background: #cc3b30;
+  }
+  footer {
+    width: 100%;
+    padding: 15px 10px;
+    text-align: center;
+    background: #007a3d;
+    color: #ddd;
+    font-size: 0.9rem;
+    position: fixed;
+    bottom: 0;
+  }
+  @media (max-width: 600px) {
+    main {
+      padding: 20px 15px;
+    }
+    header h1 {
+      font-size: 1.6rem;
+    }
+    .flag {
+      font-size: 2rem;
+    }
+    .share-buttons {
+      flex-direction: column;
+      gap: 12px;
+    }
+    .share-buttons button {
+      width: 100%;
+      font-size: 1.1rem;
+    }
+    .donate-section a {
+      display: inline-block;
+      width: 100%;
+      font-size: 1.1rem;
+    }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">Chat App</div>
-        <div class="user-number" id="userNumber"></div>
-        <div id="homeScreen" class="home-screen">
-            <div class="add-contact">
-                <input type="text" id="newContact" placeholder="Masukkan nomor (+62xxxxxxxxxxx)">
-                <button onclick="addContact()">Tambah</button>
-            </div>
-            <ul id="contactList" class="contact-list"></ul>
-        </div>
-        <div id="chatScreen" class="chat-screen">
-            <div class="chat-header">
-                <button onclick="backToHome()">X</button>
-                <span id="chatWith"></span>
-            </div>
-            <div id="chatMessages" class="chat-messages"></div>
-            <div class="chat-input">
-                <input type="text" id="messageInput" placeholder="Tulis pesan...">
-                <button onclick="sendMessage()">▶</button>
-            </div>
-        </div>
-    </div><script>
-    let userNumber = localStorage.getItem("userNumber");
-    if (!userNumber) {
-        userNumber = `+62${Math.floor(100000000000 + Math.random() * 900000000000)}`;
-        localStorage.setItem("userNumber", userNumber);
-    }
-    document.getElementById("userNumber").innerText = `Nomor Anda: ${userNumber}`;
-    let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
-    let messages = JSON.parse(localStorage.getItem("messages")) || {};
-    let currentChat = null;
+<header>
+  <h1>Support Palestine 🇵🇸</h1>
+  <div class="flag">🕊️✌️</div>
+</header>
+<main>
+  <h2>Doa dan Harapan untuk Saudara Kita di Palestina</h2>
+  <p>
+    Dunia menyaksikan penderitaan yang amat memilukan di Palestina. Setiap hari, saudara-saudara kita menghadapi kesulitan yang tak terbayangkan, kehilangan rumah, keluarga, dan harapan. Mari kita bersama-sama memberikan dukungan, doa, dan suara untuk keadilan dan perdamaian di sana.
+  </p>
+  <div class="image-container">
+    <img src="https://flagcdn.com/w320/ps.png" alt="Bendera Palestina" />
+  </div>
+  <p>
+    Kami mengajak semua pengunjung untuk menyebarkan pesan perdamaian dan kasih sayang, agar dunia semakin peduli terhadap nasib Palestina. Jangan biarkan suara mereka tenggelam dalam kesunyian.
+  </p>
 
-    function addContact() {
-        let newContact = document.getElementById("newContact").value.trim();
-        if (!newContact.startsWith("+62") || newContact.length !== 13) {
-            alert("Nomor harus dimulai dengan +62 dan memiliki 12 digit setelah +62.");
-            return;
-        }
-        if (!contacts.includes(newContact)) {
-            contacts.push(newContact);
-            localStorage.setItem("contacts", JSON.stringify(contacts));
-            renderContacts();
-            document.getElementById("newContact").value = "";
-        } else {
-            alert("Kontak sudah ada.");
-        }
-    }
+  <section>
+    <h2>Sejarah dan Situasi Palestina</h2>
+    <p>
+      Palestina adalah wilayah dengan sejarah panjang yang penuh perjuangan. Konflik yang terjadi selama puluhan tahun telah menyebabkan penderitaan yang besar bagi rakyatnya. Banyak keluarga kehilangan tempat tinggal dan sumber penghidupan akibat konflik yang berkelanjutan.
+    </p>
+    <p>
+      Masyarakat internasional terus mengupayakan solusi damai, tetapi jalan menuju perdamaian masih panjang dan penuh tantangan. Dukungan moral dan kemanusiaan dari seluruh dunia sangat dibutuhkan untuk membantu saudara-saudara kita yang terdampak.
+    </p>
+    <p>
+      Melalui website ini, kita mengingatkan bahwa setiap tindakan kecil—seperti berbagi informasi dan mengirim doa—dapat memberikan dampak besar untuk membawa perubahan positif.
+    </p>
+  </section>
 
-    function renderContacts() {
-        let contactList = document.getElementById("contactList");
-        contactList.innerHTML = "";
-        contacts.forEach(contact => {
-            let li = document.createElement("li");
-            li.innerHTML = `${contact} <button class='delete-contact' onclick='deleteContact("${contact}")'>Hapus</button>`;
-            li.onclick = () => openChat(contact);
-            contactList.appendChild(li);
-        });
-    }
+  <div class="share-buttons" aria-label="Bagikan ke sosial media">
+    <button onclick="shareWhatsApp()" aria-label="Bagikan ke WhatsApp">📱 WhatsApp</button>
+    <button onclick="shareTwitter()" aria-label="Bagikan ke Twitter">🐦 Twitter</button>
+  </div>
 
-    function deleteContact(number) {
-        contacts = contacts.filter(c => c !== number);
-        localStorage.setItem("contacts", JSON.stringify(contacts));
-        renderContacts();
-    }
+  <div class="donate-section" aria-label="Donasi untuk Palestina">
+    <a href="https://donate.unrwa.org" target="_blank" rel="noopener noreferrer" aria-label="Donasi ke UNRWA">
+      Donasi untuk Palestina
+    </a>
+  </div>
+</main>
+<footer>
+  &copy; 2025 Support Palestine - Bersama untuk Keadilan dan Perdamaian
+</footer>
 
-    function openChat(contact) {
-        currentChat = contact;
-        document.getElementById("chatWith").innerText = contact;
-        document.getElementById("homeScreen").style.display = "none";
-        document.getElementById("chatScreen").style.display = "flex";
-        loadMessages();
-    }
-
-    function backToHome() {
-        document.getElementById("homeScreen").style.display = "block";
-        document.getElementById("chatScreen").style.display = "none";
-    }
-
-    function sendMessage() {
-        let messageInput = document.getElementById("messageInput");
-        let messageText = messageInput.value.trim();
-        if (messageText === "") return;
-        
-        if (!messages[currentChat]) messages[currentChat] = [];
-        messages[currentChat].push({ sender: userNumber, text: messageText });
-        localStorage.setItem("messages", JSON.stringify(messages));
-        
-        messageInput.value = "";
-        loadMessages();
-    }
-
-    function loadMessages() {
-        let chatMessages = document.getElementById("chatMessages");
-        chatMessages.innerHTML = "";
-        (messages[currentChat] || []).forEach(msg => {
-            let div = document.createElement("div");
-            div.className = "message " + (msg.sender === userNumber ? "sent" : "received");
-            div.innerText = msg.text;
-            chatMessages.appendChild(div);
-        });
-    }
-
-    renderContacts();
+<script>
+  function shareWhatsApp() {
+    const text = encodeURIComponent("Mari dukung dan doakan saudara kita di Palestina. Keadilan dan perdamaian harus terwujud! #SupportPalestine 🇵🇸");
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://api.whatsapp.com/send?text=${text}%20${url}`, '_blank');
+  }
+  function shareTwitter() {
+    const text = encodeURIComponent("Mari dukung dan doakan saudara kita di Palestina. #SupportPalestine 🇵🇸");
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+  }
 </script>
-
 </body>
 </html>
